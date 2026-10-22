@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Golden Puck</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><ellipse cx='16' cy='20' rx='13' ry='8' fill='%236b4a00'/><rect x='3' y='13' width='26' height='7' fill='%23c98a00'/><ellipse cx='16' cy='13' rx='13' ry='8' fill='%23ffd23f'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Russo+One&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="stage">
+        <canvas id="g"></canvas>
+        <div id="hudbtns">
+            <button id="bfull" aria-label="Полный экран" title="Полный экран (F)"><svg viewBox="0 0 24 24">
+                    <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor"
+                        stroke-width="2.4" stroke-linecap="round" />
+                </svg></button>
+            <button id="bpause" aria-label="Пауза" title="Пауза (P)" hidden><svg viewBox="0 0 24 24">
+                    <rect x="6" y="5" width="4" height="14" rx="1" />
+                    <rect x="14" y="5" width="4" height="14" rx="1" />
+                </svg></button>
+        </div>
+        <div id="touch" hidden>
+            <div><button data-k="l">◀</button><button data-k="r">▶</button></div><button data-k="j">ПРЫЖОК</button>
+        </div>
+
+        <section id="ui" aria-label="Меню">
+            <div class="view" data-v="main">
+                <svg class="logo" viewBox="0 0 460 250" role="img" aria-label="Golden Puck">
+                    <defs>
+                        <linearGradient id="gd" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0" stop-color="#fff6c2" />
+                            <stop offset=".45" stop-color="#ffd23f" />
+                            <stop offset="1" stop-color="#d48a00" />
+                        </linearGradient>
+                        <linearGradient id="rb" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0" stop-color="#2a6fe8" />
+                            <stop offset="1" stop-color="#12338a" />
+                        </linearGradient>
+                    </defs>
+                    <g stroke-linecap="round" fill="none">
+                        <path d="M96 18L356 152" stroke="#2a1600" stroke-width="17" />
+                        <path d="M96 18L356 152" stroke="#d9a65c" stroke-width="11" />
+                        <path d="M356 18L96 152" stroke="#2a1600" stroke-width="17" />
+                        <path d="M356 18L96 152" stroke="#d9a65c" stroke-width="11" />
+                        <path d="M96 18L114 27M356 18L338 27" stroke="#f4f4f4" stroke-width="11" />
+                        <path d="M356 152L394 158M96 152L58 158" stroke="#111" stroke-width="19" />
+                        <path d="M372 155L376 156M78 155L74 156" stroke="#fff" stroke-width="19"
+                            stroke-linecap="butt" />
+                    </g>
+                    <ellipse cx="226" cy="104" rx="76" ry="25" fill="#7a4d00" />
+                    <rect x="150" y="82" width="152" height="22" fill="#b97a00" />
+                    <ellipse cx="226" cy="82" rx="76" ry="25" fill="url(#gd)" stroke="#fff3b0" stroke-width="2" />
+                    <ellipse cx="226" cy="82" rx="58" ry="17" fill="none" stroke="#c98a00" stroke-opacity=".6"
+                        stroke-width="3" />
+                    <ellipse cx="196" cy="72" rx="28" ry="5" fill="#fff" opacity=".55" transform="rotate(-8 196 72)" />
+                    <path d="M312 36L315 46L325 49L315 52L312 62L309 52L299 49L309 46Z" fill="#fff" />
+                    <path d="M146 40L148 47L155 49L148 51L146 58L144 51L137 49L144 47Z" fill="#fff" opacity=".8" />
+                    <path d="M12 186L52 186L52 232L12 232L30 209Z" fill="#0e2a73" />
+                    <path d="M448 186L408 186L408 232L448 232L430 209Z" fill="#0e2a73" />
+                    <rect x="36" y="172" width="388" height="58" rx="6" fill="url(#rb)" stroke="#fff"
+                        stroke-width="2.5" />
+                    <rect x="43" y="179" width="374" height="44" rx="3" fill="none" stroke="#ffd23f"
+                        stroke-opacity=".7" />
+                    <text x="230" y="216" text-anchor="middle" font-family="'Russo One',Impact,sans-serif"
+                        font-size="42" textLength="340" lengthAdjust="spacingAndGlyphs" fill="url(#gd)" stroke="#3a2400"
+                        stroke-width="2.5" paint-order="stroke">GOLDEN PUCK</text>
+                </svg>
+                <p class="tag">«Кристалл» против «Амура» — собери все шайбы и забей гол!</p>
+                <label class="nm">Имя игрока <input id="name" maxlength="12" autocomplete="off"
+                        spellcheck="false"></label>
+                <button id="play" class="big">ИГРАТЬ</button>
+                <div class="row"><button data-go="settings">Настройки</button><button
+                        data-go="records">Рекорды</button><button data-go="help">Как играть</button></div>
+            </div>
+            <div class="view" data-v="settings" hidden>
+                <h2>Настройки</h2>
+                <div class="set"><span>Музыка</span><button id="music">Вкл</button></div>
+                <div class="set"><span>Громкость музыки</span><input type="range" id="vol" min="0" max="100"
+                        value="100"></div>
+                <div class="set"><span>Звуки</span><button id="snd">Вкл</button></div>
+                <div class="set" id="fullrow"><span>Полный экран</span><button id="full">Выкл</button></div>
+                <button data-back>Назад</button>
+            </div>
+            <div class="view" data-v="records" hidden>
+                <h2>Лучшие игроки</h2>
+                <ol id="scores"></ol><button data-back>Назад</button>
+            </div>
+            <div class="view" data-v="help" hidden>
+                <h2>Как играть</h2>
+                <ul>
+                    <li><kbd>←</kbd><kbd>→</kbd> или <kbd>A</kbd><kbd>D</kbd> — бежать (на льду скользко!)</li>
+                    <li><kbd>Пробел</kbd>, <kbd>↑</kbd> или <kbd>W</kbd> — прыжок, в воздухе второй прыжок нельзя</li>
+                    <li><kbd>P</kbd> — пауза · <kbd>R</kbd> — заново · <kbd>F</kbd> — полный экран</li>
+                    <li>Собери все шайбы уровня и забей гол в ворота</li>
+                    <li>Шипы и игроки «Амура» отнимают жизнь. Прыгни сопернику на голову — и он выбывает</li>
+                    <li>На каждом новом уровне жизни восстанавливаются до трёх сердечек</li>
+                    <li>На телефоне — экранные кнопки</li>
+                </ul>
+                <button data-back>Назад</button>
+            </div>
+            <div class="view" data-v="pause" hidden>
+                <h2>Пауза</h2><button id="resume" class="big">Продолжить</button><button
+                    id="restart">Заново</button><button data-go="settings">Настройки</button><button id="tomenu">В
+                    меню</button>
+            </div>
+            <div class="view" data-v="end" hidden>
+                <h2 id="endTitle"></h2>
+                <div id="stars"></div>
+                <p id="endInfo"></p><button id="again" class="big">Играть ещё</button><button id="tomenu2">В
+                    меню</button>
+            </div>
+        </section>
+    </div>
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
